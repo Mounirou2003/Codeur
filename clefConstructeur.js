@@ -1,10 +1,6 @@
-const fs = require('fs')
 function nouvClée(clée) {
     if (clée.length === 52) {
-        if (fs.existsSync(`./node_modules/Key/${clée}.json`)) {
-            console.log('cette clée existe déjà')
-        } else {
-            let clées = {
+            return {
                 a: `${clée[0]}` + `${clée[1]}`,
                 b: `${clée[2]}` + `${clée[3]}`,
                 c: `${clée[4]}` + `${clée[5]}`,
@@ -32,38 +28,22 @@ function nouvClée(clée) {
                 y: `${clée[48]}` + `${clée[49]}`,
                 z: `${clée[50]}` + `${clée[51]}`
             };
-            let cléejson = JSON.stringify(clées);
-            fs.writeFile(`node_modules/Key/${clée}.json`, cléejson, 'utf8', function callBack(err) {
-                if (err) console.log(err);
-                console.log('nouvelle clée enregistrée');
-            }
-            );
-        };
     } else {
-        console.log(`${clée} n'est pas une clée correcte`);
+        return `error`;
     };
-    return;
 };
-function constrClée(FichierClef, confirm) {
-    let fichier = tradFichier(require(FichierClef));
-    let Clef = `${fichier.a}${fichier.b}${fichier.c}${fichier.d}${fichier.e}${fichier.f}${fichier.g}${fichier.h}${fichier.i}${fichier.j}${fichier.k}${fichier.l}${fichier.m}${fichier.n}${fichier.o}${fichier.p}${fichier.q}${fichier.r}${fichier.s}${fichier.t}${fichier.u}${fichier.v}${fichier.w}${fichier.x}${fichier.y}${fichier.z}`;
-    if (confirm === 'y') {
-        if (fs.existsSync(`./node_modules/Key/${Clef}.json`)) {
-            console.log('')
-        } else {
-            nouvClée(Clef);
-        };
-    };
-    return Clef;
+function constrClée(Clef) {
+    let fichier = tradClé(Clef);
+    return `${fichier.a}${fichier.b}${fichier.c}${fichier.d}${fichier.e}${fichier.f}${fichier.g}${fichier.h}${fichier.i}${fichier.j}${fichier.k}${fichier.l}${fichier.m}${fichier.n}${fichier.o}${fichier.p}${fichier.q}${fichier.r}${fichier.s}${fichier.t}${fichier.u}${fichier.v}${fichier.w}${fichier.x}${fichier.y}${fichier.z}`;
 };
-function tradFichier(fichier) {
+function tradClé(fichierObj) {
     let fichierTraduit = {}
-    let Arrai = Object.keys(fichier)
+    let Arrai=Object.keys(fichierObj)
     Arrai.forEach(nom => {
-        fichierTraduit[fichier[nom]] = nom;
+        fichierTraduit[fichierObj[nom]] = nom;
     });
     return fichierTraduit;
 }
 exports.nouvClée = nouvClée;
 exports.constrClée = constrClée;
-exports.tradFichier=tradFichier;
+exports.tradClé=tradClé;
